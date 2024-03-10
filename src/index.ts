@@ -2,6 +2,7 @@ import express, { Express, Request, Response } from "express";
 import mongoose from "mongoose";
 import cors from 'cors';
 import {config} from './config';
+import {appRoutes} from './routes';
 
 
 const port = config.server.port;
@@ -18,6 +19,9 @@ app.use(cors());
       await mongoose.connect(config.mongo.url, {w:"majority", retryWrites:true, authMechanism:"DEFAULT"});
 
       console.log("Connection to DB stablished");
+
+
+      appRoutes(app);
       
       app.listen(port, ()=>{
           console.log(`Server listening on port ${port}`)

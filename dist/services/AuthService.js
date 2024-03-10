@@ -12,27 +12,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const mongoose_1 = __importDefault(require("mongoose"));
-const cors_1 = __importDefault(require("cors"));
-const config_1 = require("./config");
-const routes_1 = require("./routes");
-const port = config_1.config.server.port;
-const app = (0, express_1.default)();
-app.use(express_1.default.json());
-app.use((0, cors_1.default)());
-(function startUp() {
+exports.register = void 0;
+const bcrypt_1 = __importDefault(require("bcrypt"));
+const UserDao_1 = __importDefault(require("../daos/UserDao"));
+function register(user) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            yield mongoose_1.default.connect(config_1.config.mongo.url, { w: "majority", retryWrites: true, authMechanism: "DEFAULT" });
-            console.log("Connection to DB stablished");
-            (0, routes_1.appRoutes)(app);
-            app.listen(port, () => {
-                console.log(`Server listening on port ${port}`);
-            });
+            const hashedPassword = yield bcrypt_1.default.hash(user.password, 10);
+            const newUser = new UserDao_1.default(Object.assign(Object.assign({}, user), { password: hashedPassword }));
+            return yield newUser.save();
         }
-        catch (error) {
-            console.log("Couldn't connect to DB");
+        catch (e) {
+            throw new Error("Can't create user");
         }
     });
-})();
+}
+exports.register = register;

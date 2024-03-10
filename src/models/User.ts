@@ -4,6 +4,4 @@ export interface UserI{
     lastName:string;
     email:string;
     password:string;
-    country:string;
-    favorites:string[];
 }

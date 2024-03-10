@@ -4,14 +4,15 @@ import UserDao, { UserModel } from '../daos/UserDao';
 import { UserI } from '../models/User';
 
 export async function register(user:UserI):Promise<UserModel>{
-    const rounds = config.server.rounds;
+    
 
     try{
-        const hashedPassword = await bcrypt.hash(user.password, rounds);
+        const hashedPassword = await bcrypt.hash(user.password, 10);
 
         const newUser = new UserDao({...user, password:hashedPassword});
-
-        return await newUser.save()
+       
+    
+        return await newUser.save();
 
 
     } catch(e:any){
