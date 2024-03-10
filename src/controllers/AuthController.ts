@@ -1,6 +1,7 @@
 import {Request, Response} from 'express';
-import { register } from '../services/AuthService';
+import { register } from '../services/UserService';
 import { UserI } from '../models/User';
+import {RegisterFailedError} from '../utils/AppErrors'
 
 async function handleRegister(req:Request, res:Response){
 
@@ -20,7 +21,12 @@ async function handleRegister(req:Request, res:Response){
             }
         })
     }catch(e:any){
-        res.status(500).json({message:"Unable to register user"});
+        if(e.message.includes('E11000 duplicate key error collection:')){
+            res.status(409).json({message: 'User with email already exists', error:e.message});
+        } else {
+            res.status(500).json({message:"Unable to register user", error:e.message});
+        }
+        
     }
 }
 

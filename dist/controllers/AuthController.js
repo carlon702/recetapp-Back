@@ -9,12 +9,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const AuthService_1 = require("../services/AuthService");
+const UserService_1 = require("../services/UserService");
 function handleRegister(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const user = req.body;
         try {
-            const registeredUser = yield (0, AuthService_1.register)(user);
+            const registeredUser = yield (0, UserService_1.register)(user);
             res.status(201).json({
                 message: "User created",
                 user: {
@@ -27,7 +27,12 @@ function handleRegister(req, res) {
             });
         }
         catch (e) {
-            res.status(500).json({ message: "Unable to register user" });
+            if (e.message.includes('E11000 duplicate key error collection:')) {
+                res.status(409).json({ message: 'User with email already exists', error: e.message });
+            }
+            else {
+                res.status(500).json({ message: "Unable to register user", error: e.message });
+            }
         }
     });
 }

@@ -3,6 +3,7 @@ import { config } from '../config';
 import UserDao, { UserModel } from '../daos/UserDao';
 import { UserI } from '../models/User';
 
+
 export async function register(user:UserI):Promise<UserModel>{
     
 
