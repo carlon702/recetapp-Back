@@ -3,5 +3,6 @@ declare namespace NodeJS {
       readonly MONGO_PASSWORD: string
       readonly MONGO_USERNAME: string
       readonly PORT: number
+      readonly SERVER_ROUNDS: number
     }
   }

@@ -9,13 +9,14 @@ const MONGO_URL:string = `mongodb+srv://${MONGO_USERNAME}:${MONGO_PASSWORD}@rece
 `;
 
 const PORT:number = process.env.PORT
-
+const ROUNDS:number = process.env.SERVER_ROUNDS
 
 export const config = {
     mongo:{
         url: MONGO_URL
     },
     server:{
-        port: PORT
+        port: PORT,
+        rounds: ROUNDS
     }
 }

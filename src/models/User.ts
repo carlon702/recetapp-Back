@@ -7,5 +7,3 @@ export interface UserI{
     country:string;
     favorites:string[];
 }
-
-//el modelo se importa en ../daos/UserDaos
