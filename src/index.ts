@@ -1,15 +1,31 @@
 import express, { Express, Request, Response } from "express";
-import dotenv from "dotenv";
+import mongoose from "mongoose";
+import cors from 'cors';
+import {config} from './config';
 
-dotenv.config();
+
+const port = config.server.port;
 
 const app: Express = express();
-const port = process.env.PORT || 3000;
 
-app.get("/", (req: Request, res: Response) => {
-  res.send("vanipetes");
-});
 
-app.listen(port, () => {
-  console.log(`[server]: Server is running at http://localhost:${port}`);
-});
+app.use(express.json());
+app.use(cors());
+
+
+(async function startUp(){
+  try{
+      await mongoose.connect(config.mongo.url, {w:"majority", retryWrites:true, authMechanism:"DEFAULT"});
+
+      console.log("Connection to DB stablished");
+      
+      app.listen(port, ()=>{
+          console.log(`Server listening on port ${port}`)
+      })
+       
+  } catch(error){
+
+      console.log("Couldn't connect to DB");
+
+  }
+})();
