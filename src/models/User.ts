@@ -4,4 +4,8 @@ export interface UserI{
     lastName:string;
     email:string;
     password:string;
+    country:string;
+    favorites:string[];
 }
+
+//el modelo se importa en ../daos/UserDaos
