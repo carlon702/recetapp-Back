@@ -41,7 +41,7 @@ export async function findUserById(userId:string):Promise<UserModel>{
         if(user){
             return user
         } else {
-            throw new UserDoesNotExistError('User does not exist');
+            throw new UserDoesNotExistError('User does not exist with that id');
         }
 
     }catch(e:any){
@@ -54,11 +54,24 @@ export async function modifyUser(user:UserModel):Promise<UserModel>{
     try{
         let id = await UserDao.findByIdAndUpdate(user._id,user, {new:true});
         if(!id){
-            throw new UserDoesNotExistError("User does not exist");
+            throw new UserDoesNotExistError("User does not exist with that id");
         }
         return user;
     }catch(e:any){
         throw new Error(e.message);
+    }
+}
+
+export async function removeUser(userId:string):Promise<UserModel>{
+
+    try{
+        let deleted = await UserDao.findByIdAndDelete(userId);
+        if(!deleted){
+            throw new UserDoesNotExistError("User does not exist with that id");
+        }
+        return deleted;
+    }catch(e:any){
+        throw new Error('Unable to delete user');
     }
 }
 

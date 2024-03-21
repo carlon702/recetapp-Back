@@ -1,5 +1,5 @@
 import {Request, Response} from 'express';
-import { findAllUsers, findUserById, modifyUser } from '../services/UserService';
+import { findAllUsers, findUserById, modifyUser, removeUser } from '../services/UserService';
 import { UserDoesNotExistError } from '../utils/AppErrors';
 
 
@@ -23,7 +23,7 @@ async function getUserById(req:Request, res:Response){
         if(e instanceof UserDoesNotExistError){
             res.status(404).json({message:'User does not exist'});
         } else {
-            res.status(500).json({message:'Something went wrong', error:e.message});
+            res.status(500).json({message:'Unable to find user', error:e.message});
         }
     }
 }
@@ -44,4 +44,20 @@ async function updateUser(req:Request, res:Response){
     }
 }
 
-export default {getAllUsers, getUserById, updateUser};
+async function deleteUser(req:Request, res:Response){
+
+    const userId = req.params.userId;
+
+    try{
+        let deleted = await removeUser(userId);
+        res.status(202).json({message:'User deleted', deleted})
+    }catch(e:any){
+        if(e instanceof UserDoesNotExistError){
+            res.status(404).json({message: 'User does not exist'});
+        } else {
+        res.status(500).json({message:'Unable to delete user', error:e.message});
+    }
+    }
+}
+
+export default {getAllUsers, getUserById, updateUser, deleteUser};
