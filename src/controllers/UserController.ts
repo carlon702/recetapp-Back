@@ -1,5 +1,5 @@
 import {Request, Response} from 'express';
-import { findAllUsers, findUserById } from '../services/UserService';
+import { findAllUsers, findUserById, modifyUser } from '../services/UserService';
 import { UserDoesNotExistError } from '../utils/AppErrors';
 
 
@@ -28,4 +28,20 @@ async function getUserById(req:Request, res:Response){
     }
 }
 
-export default {getAllUsers, getUserById};
+async function updateUser(req:Request, res:Response){
+    
+    const user = req.body;
+
+    try{
+        let updatedUser = await modifyUser(user);
+        res.status(202).json({message:"User updated", user: updatedUser});
+    }catch(e:any){
+        if(e instanceof UserDoesNotExistError){
+            res.status(404).json({message: 'User does not exist'});
+        } else {
+        res.status(500).json({message:'Unable to update user', error:e.message});
+    }
+    }
+}
+
+export default {getAllUsers, getUserById, updateUser};

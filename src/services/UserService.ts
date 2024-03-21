@@ -49,3 +49,16 @@ export async function findUserById(userId:string):Promise<UserModel>{
     }
 }
 
+export async function modifyUser(user:UserModel):Promise<UserModel>{
+
+    try{
+        let id = await UserDao.findByIdAndUpdate(user._id,user, {new:true});
+        if(!id){
+            throw new UserDoesNotExistError("User does not exist");
+        }
+        return user;
+    }catch(e:any){
+        throw new Error(e.message);
+    }
+}
+
