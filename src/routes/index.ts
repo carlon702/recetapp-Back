@@ -10,6 +10,5 @@ export function appRoutes(app:Express){
     })
 
     app.use('/auth', authRoutes);
-
     app.use('/users', userRoutes);
 }
