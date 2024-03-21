@@ -18,7 +18,7 @@ export async function register(user:UserI):Promise<UserModel>{
 
 
     } catch(e:any){
-        throw new Error("Can't create user");
+        throw new Error(e.message);
     }
 
 }

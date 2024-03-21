@@ -21,7 +21,7 @@ async function handleRegister(req:Request, res:Response){
             }
         })
     }catch(e:any){
-        if(e.message.includes('E11000 duplicate key error collection:')){
+        if(e.message.includes('E11000 duplicate key error collection')){
             res.status(409).json({message: 'User with email already exists', error:e.message});
         } else {
             res.status(500).json({message:"Unable to register user", error:e.message});
