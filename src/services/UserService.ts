@@ -21,3 +21,14 @@ export async function register(user:UserI):Promise<UserModel>{
     }
 
 }
+
+export async function findAllUsers():Promise<UserModel[]>{
+
+    try{
+        const users = await UserDao.find();
+        return users;
+    }catch(e:any){
+        return [];
+    }
+}
+
