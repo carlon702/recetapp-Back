@@ -18,8 +18,7 @@ app.use(cors());
   try{
       await mongoose.connect(config.mongo.url, {w:"majority", retryWrites:true, authMechanism:"DEFAULT"});
 
-      console.log("Connection to DB stablished");
-
+      console.log("Connection to DB stablished ❤");
 
       appRoutes(app);
       
