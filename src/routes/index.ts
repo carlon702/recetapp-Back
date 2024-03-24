@@ -1,5 +1,6 @@
 import { Express, Request, Response } from "express";
 import authRoutes from "./AuthRoutes";
+import recipeRoutes from "./RecipeRoutes";
 
 export function appRoutes(app:Express){
 
@@ -8,4 +9,5 @@ export function appRoutes(app:Express){
     })
 
     app.use('/auth', authRoutes);
+    app.use('/recipes', recipeRoutes)
 }

@@ -25,7 +25,7 @@ app.use((0, cors_1.default)());
     return __awaiter(this, void 0, void 0, function* () {
         try {
             yield mongoose_1.default.connect(config_1.config.mongo.url, { w: "majority", retryWrites: true, authMechanism: "DEFAULT" });
-            console.log("Connection to DB stablished");
+            console.log("Connection to DB stablished ❤");
             (0, routes_1.appRoutes)(app);
             app.listen(port, () => {
                 console.log(`Server listening on port ${port}`);
